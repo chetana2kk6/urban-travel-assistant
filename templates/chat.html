@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Urban Travel Chatbot</title>
+</head>
+<body>
+  <h2>Urban Travel Assistant 🤖</h2>
+
+  <div id="chat"></div>
+
+  <input id="userInput" placeholder="Type here..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    async function sendMessage() {
+      let input = document.getElementById("userInput").value;
+      document.getElementById("chat").innerHTML += "<p><b>You:</b> " + input + "</p>";
+
+      let response = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: input})
+      });
+
+      let data = await response.json();
+      document.getElementById("chat").innerHTML += "<p><b>Bot:</b> " + data.reply + "</p>";
+      document.getElementById("userInput").value = "";
+    }
+  </script>
+</body>
+</html>
